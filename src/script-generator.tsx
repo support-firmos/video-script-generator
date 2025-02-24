@@ -127,8 +127,8 @@ export default function VideoScriptGenerator() {
       targetAudience: '',
       tone: '',
       duration: '',
-      keyPoints: '',
       callToAction: '',
+      keyPoints: '',
     });
     setPromptResult('');
     setOption('long-form');
