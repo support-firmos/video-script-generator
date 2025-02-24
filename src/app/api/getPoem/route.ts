@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     // Call the OpenRouter API
     const response = (await client.chat.completions.create({
-      model: 'meta-llama/llama-3.3-70b-instruct',
+      model: 'anthropic/claude-3.5-haiku:beta',
       max_tokens: 5000,
       temperature: 0.7,
       messages: [
