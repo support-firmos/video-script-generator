@@ -1,23 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Anthropic from '@anthropic-ai/sdk';
+import OpenAI from 'openai';
 import { format } from 'date-fns';
 
-interface ContentItem {
-  type: string;
-  text: string;
-}
-
-interface AnthropicResponse {
+interface OpenRouterResponse {
   id: string;
-  type: string;
-  role: string;
+  object: string;
+  created: number;
   model: string;
-  content?: ContentItem[];
-  stop_reason?: string;
-  stop_sequence?: string | null;
-  usage?: {
-    input_tokens: number;
-    output_tokens: number;
+  choices: {
+    message: {
+      role: string;
+      content: string;
+    };
+    finish_reason: string;
+    index: number;
+  }[];
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
   };
 }
 
@@ -35,12 +36,17 @@ export async function POST(request: NextRequest) {
       scriptOption,
     } = body;
 
-    // Initialize Anthropic API
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY || '',
+    // Initialize OpenRouter API
+    const client = new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: process.env.OPENROUTER_API_KEY || '',
+      defaultHeaders: {
+        "HTTP-Referer": process.env.NEXT_PUBLIC_BASE_URL,
+        "X-Title": "Video Script Generator",
+      },
     });
 
-    // Construct the prompt for Anthropic API
+    // Construct the prompt for OpenRouter API
     const prompt = `
       You are a scriptwriting assistant. Write a ${scriptOption} video script with the following details:
       - Title: ${title || 'Untitled'}
@@ -51,15 +57,12 @@ export async function POST(request: NextRequest) {
       - Key Points: ${keyPoints || 'None provided'}
       - Call to Action: ${callToAction || 'None provided'}
       Please create a detailed and engaging script.
-
-      \n\nHuman: ${scriptOption} video script based on the details provided above.
-      \nAssistant:
     `;
 
-    // Call the Anthropics API
-    const response = (await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 1000,
+    // Call the OpenRouter API
+    const response = (await client.chat.completions.create({
+      model: 'deepseek/deepseek-r1-distill-llama-70b',
+      max_tokens: 5000,
       temperature: 0.7,
       messages: [
         {
@@ -67,17 +70,14 @@ export async function POST(request: NextRequest) {
           content: prompt,
         },
       ],
-    })) as unknown as AnthropicResponse;
+    })) as unknown as OpenRouterResponse;
 
     console.log('Anthropic API Response:', JSON.stringify(response, null, 2));
 
     // Extract the generated content
     let generatedContent = 'No content generated.';
-    if (response.content && Array.isArray(response.content)) {
-      generatedContent = response.content
-        .filter((item) => item.type === 'text')
-        .map((item) => item.text)
-        .join('\n');
+    if (response.choices && response.choices.length > 0) {
+      generatedContent = response.choices[0].message.content;
     }
 
     // Generate a unique result_id

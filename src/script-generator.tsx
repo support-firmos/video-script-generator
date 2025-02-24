@@ -32,8 +32,8 @@ export default function VideoScriptGenerator() {
     targetAudience: '',
     tone: '',
     duration: '',
-    keyPoints: '',
     callToAction: '',
+    keyPoints: '',
   });
 
   const [promptResult, setPromptResult] = useState('');
@@ -228,9 +228,9 @@ export default function VideoScriptGenerator() {
         </div>
 
         {/* Inputs */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {Object.entries(formData).map(([field, value]) => (
-            <div key={field} className="group relative col-span-2 sm:col-span-1">
+            <div key={field} className={`group relative ${field === 'keyPoints' ? 'col-span-2' : 'col-span-1'}`}>
               <label
                 htmlFor={field}
                 className="mb-2 block text-sm font-medium capitalize text-white/80"
