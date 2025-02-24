@@ -74,7 +74,7 @@ export default function VideoScriptGenerator() {
     try {
       // Use a relative path to ensure compatibility between development and production
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
       
       const response = await fetch('/api/getPoem', {
         method: 'POST',
