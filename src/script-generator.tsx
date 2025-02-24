@@ -73,11 +73,15 @@ export default function VideoScriptGenerator() {
   
     try {
       // Use a relative path to ensure compatibility between development and production
-      const response = await fetch('/api/getPoem', { 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      
+      const response = await fetch('/api/getPoem', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        signal: controller.signal,
         body: JSON.stringify({
           title: formData.title,
           type: formData.type,
@@ -89,6 +93,7 @@ export default function VideoScriptGenerator() {
           scriptOption: option,
         }),
       });
+      clearTimeout(timeoutId);
   
       console.log('Fetch response:', response); // Log the fetch response
   
@@ -109,7 +114,9 @@ export default function VideoScriptGenerator() {
       }
     } catch (err) {
       console.error('Error generating script:', err);
-      if (err instanceof Error) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('Request timed out. Please try again with a shorter script request.');
+      } else if (err instanceof Error) {
         setError(`Failed to generate script: ${err.message}`);
       } else {
         setError('Failed to generate script: An unexpected error occurred.');
