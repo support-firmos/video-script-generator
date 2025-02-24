@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     // Call the OpenRouter API
     const response = (await client.chat.completions.create({
-      model: 'anthropic/claude-3.5-haiku:beta',
+      model: 'deepseek/deepseek-chat',
       max_tokens: 5000,
       temperature: 0.7,
       messages: [
