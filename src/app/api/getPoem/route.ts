@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     // Call the OpenRouter API
     const response = (await client.chat.completions.create({
-      model: 'deepseek/deepseek-chat',
+      model: 'google/gemini-2.0-flash-001',
       max_tokens: 5000,
       temperature: 0.7,
       messages: [
