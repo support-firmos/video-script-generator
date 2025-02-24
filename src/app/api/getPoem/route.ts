@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     // Call the OpenRouter API
     const response = (await client.chat.completions.create({
-      model: 'deepseek/deepseek-r1-distill-llama-70b',
+      model: 'qwen/qwen-plus',
       max_tokens: 5000,
       temperature: 0.7,
       messages: [
