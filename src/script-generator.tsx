@@ -161,14 +161,15 @@ export default function VideoScriptGenerator() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#323232] to-[#000000] p-6">
+
+    <div className="min-h-screen p-6">
   <div className="mx-auto max-w-7xl">
     {/* Header with Help Icon */}
-    <div className="mb-8 flex justify-between items-start rounded-2xl bg-white/10 p-8 backdrop-blur-lg">
+    <div className="mb-8 flex justify-center items-center rounded-2xl">
       <div className="relative inline-block">
-        <h1 className="bg-gradient-to-r from-[#FE7443] to-[#FEC7B3] bg-clip-text text-5xl font-bold text-transparent">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#f7f8f8] pt-5">
           Video Script Generator
-          <sup className="ml-2 text-sm text-[#FE7443]">
+          <sup className="ml-2 text-sm">
             <button
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
@@ -178,14 +179,13 @@ export default function VideoScriptGenerator() {
               <HelpCircle className="h-5 w-5" />
             </button>
             {showTooltip && (
-              <div className="absolute right-0 top-6 mt-2 w-40 rounded-lg bg-black/80 p-2 text-center text-sm text-white backdrop-blur-sm">
+              <div className="absolute right-0 top-6 mt-2 w-40 rounded-lg background p-2 text-center text-sm text-white backdrop-blur-sm">
                 Need help?
-                <div className="absolute -top-1 right-4 h-2 w-2 rotate-45 bg-black/80"></div>
+                <div className="absolute -top-1 right-4 h-2 w-2 rotate-45 background"></div>
               </div>
             )}
           </sup>
         </h1>
-        <div className="absolute -bottom-2 left-0 h-1 w-full bg-gradient-to-r from-[#FE7443] to-[#FEC7B3]"></div>
       </div>
     </div>
 
@@ -193,29 +193,28 @@ export default function VideoScriptGenerator() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Left Column: Input Fields */}
       <div
-        className="relative rounded-2xl bg-white/10 p-6 shadow-2xl backdrop-blur-lg"
-        style={{ minHeight: '500px' }} // Set a fixed height for the container
+        className="card p-7"
       >
         {/* Script Type Dropdown */}
         <div className="mb-8">
-          <label className="mb-2 block text-sm font-medium text-white/80">Script Type:</label>
+          <label className="mb-2 block text-sm font-medium text-white/80">Script Type</label>
           <div className="relative">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="group flex w-full items-center justify-between rounded-xl border border-white/20 bg-black/40 px-6 py-3 text-white backdrop-blur-sm transition-all hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-[#FE7443]"
+              className="group flex w-full items-center justify-between rounded-xl border border-white/20 bg-[#141414] px-6 py-3 text-white backdrop-blur-sm transition-all hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20"
             >
               <span className="flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-[#FE7443]" />
+                <Sparkles className="h-5 w-5 text-[#28a745]" />
                 {options.find(opt => opt.value === option)?.label}
               </span>
               <ChevronDown
-                className={`h-5 w-5 text-[#FE7443] transition-transform duration-200 ${
+                className={`h-5 w-5 text-[#28a745] transition-transform duration-200 ${
                   showDropdown ? 'rotate-180' : ''
                 }`}
               />
             </button>
             {showDropdown && (
-              <div className="absolute z-40 mt-2 w-full rounded-xl border border-white/20 bg-black/90 py-2 backdrop-blur-lg">
+              <div className="absolute z-40 mt-2 w-full rounded-xl border border-white/20 bg-[#141414] py-2 backdrop-blur-lg">
                 {options.map(opt => (
                   <button
                     key={opt.value}
@@ -225,7 +224,7 @@ export default function VideoScriptGenerator() {
                     }}
                     className="flex w-full items-center gap-2 px-6 py-3 text-left text-white transition-colors hover:bg-[#FE7443]/20"
                   >
-                    <Sparkles className="h-4 w-4 text-[#FE7443]" />
+                    <Sparkles className="h-4 w-4 text-[#28a745]" />
                     {opt.label}
                   </button>
                 ))}
@@ -255,7 +254,7 @@ export default function VideoScriptGenerator() {
                     id="keyPoints"
                     value={formData.keyPoints}
                     onChange={e => handleInputChange('keyPoints', e.target.value)}
-                    className="h-32 w-full rounded-xl border border-white/20 bg-black/40 px-4 py-3 text-white placeholder-white/40 backdrop-blur-sm transition-all focus:border-[#FE7443] focus:outline-none focus:ring-2 focus:ring-[#FE7443]"
+                    className="h-32 w-full rounded-xl border border-white/20 bg-[#141414] px-4 py-3 text-white placeholder-white/40 backdrop-blur-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20"
                     placeholder="Enter key points"
                     maxLength={500} // Character limit
                   />
@@ -266,7 +265,7 @@ export default function VideoScriptGenerator() {
                   type="text"
                   value={value}
                   onChange={e => handleInputChange(field as keyof FormData, e.target.value)}
-                  className="w-full rounded-xl border border-white/20 bg-black/40 px-4 py-3 text-white placeholder-white/40 backdrop-blur-sm transition-all focus:border-[#FE7443] focus:outline-none focus:ring-2 focus:ring-[#FE7443]"
+                  className="w-full rounded-xl border border-white/20 bg-[#141414] px-4 py-3 text-white placeholder-white/40 backdrop-blur-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20"
                   placeholder={`Enter ${field.replace(/([A-Z])/g, ' $1').trim().toLowerCase()}`}
                 />
               )}
@@ -286,7 +285,7 @@ export default function VideoScriptGenerator() {
           <button
             onClick={handleRunPrompt}
             disabled={isGenerating}
-            className="group relative overflow-hidden rounded-full bg-gradient-to-r from-[#FE7443] to-[#FEAB8E] px-12 py-4 font-medium text-white transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FE7443] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="group relative overflow-hidden rounded-full bg-gradient-to-r from-[#28a745] to-[#28a745] px-12 py-4 font-medium text-white transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <span className="flex items-center gap-2">
               {isGenerating ? (
@@ -311,10 +310,10 @@ export default function VideoScriptGenerator() {
         </div>
 
         {/* Create New Button */}
-        <div className="mt-6 flex justify-end">
+        <div className="mt-6 flex justify-center">
           <button
             onClick={handleCreateNew}
-            className="rounded-lg border border-[#FE7443] px-6 py-2 text-[#FE7443] transition-all hover:bg-[#FE7443] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#FE7443] focus:ring-offset-2"
+            className="rounded-lg border px-6 py-2 transition-all hover:bg-[#28a745] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20 focus:ring-offset-2"
           >
             Create New Script
           </button>
@@ -322,7 +321,7 @@ export default function VideoScriptGenerator() {
       </div>
 
       {/* Right Column: Generated Script */}
-      <div className="relative rounded-2xl bg-white/10 p-6 backdrop-blur-lg shadow-2xl">
+      <div className="card">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-medium text-white">Generated Script</h2>
           <div className="flex items-center gap-2">
@@ -362,11 +361,11 @@ export default function VideoScriptGenerator() {
               <p>Follow these steps to generate your perfect video script:</p>
               <ol className="list-decimal space-y-4 pl-4">
                 <li>
-                  <strong className="text-[#FE7443]">Select Script Type:</strong> Choose between Carousel,
+                  <strong className="text-[#28a745]">Select Script Type:</strong> Choose between Carousel,
                   Long Form, Short Form, or VSL Script based on your content needs
                 </li>
                 <li>
-                  <strong className="text-[#FE7443]">Fill in Details:</strong>
+                  <strong className="text-[#28a745]">Fill in Details:</strong>
                   <ul className="mt-2 list-disc pl-4 text-white/60">
                     <li>Video Title - The main topic or subject of your video</li>
                     <li>Video Type - The style or format (educational, promotional, etc.)</li>
@@ -378,17 +377,17 @@ export default function VideoScriptGenerator() {
                   </ul>
                 </li>
                 <li>
-                  <strong className="text-[#FE7443]">Generate Script:</strong> Click the &quot;Generate
+                  <strong className="text-[#28a745]">Generate Script:</strong> Click the &quot;Generate
                   Script&quot; button and wait for your customized script
                 </li>
                 <li>
-                  <strong className="text-[#FE7443]">Review & Copy:</strong> Use the copy button to
+                  <strong className="text-[#28a745]">Review & Copy:</strong> Use the copy button to
                   save your script to clipboard
                 </li>
               </ol>
               <div className="mt-6 rounded-lg bg-[#FE7443]/20 p-4">
                 <p className="flex items-center gap-2 text-sm">
-                  <AlertCircle className="h-4 w-4 text-[#FE7443]" />
+                  <AlertCircle className="h-4 w-4 " />
                   Pro tip: Be specific with your key points and target audience for better results
                 </p>
               </div>

@@ -4,11 +4,31 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  color: var(--title-color);
+  background: linear-gradient(165deg, #08090a, #141414);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
 }
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: #08090a;
+    --title-color: #f7f8f8;
+    --subtitle-color: #8a8f98;
+    --cta-bg: #121212;
+    --cta-color: #f7f8f8;
+    --social-icon-color: #f7f8f8;
+    --green: #28a745;
+    /* Enhanced Dark Mode Colors */
+    --dark-surface-1: #141414;
+    --dark-surface-2: #1A1A1A;
+    --dark-surface-3: #202020;
+
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -85,4 +105,28 @@ body {
   textarea {
     @apply border-input; /* Only apply borders where needed */
   }
+
+    .card {
+      @apply bg-gradient-to-br from-[#141414] to-[#1A1A1A] rounded-xl p-5 shadow-md transition-all duration-300;
+    }
+    
+    .card:hover {
+      @apply transform -translate-y-1 shadow-lg;
+    }
+    
+    .input-field {
+      @apply w-full px-4 py-3 bg-[#141414] border border-[#8a8f98]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20 text-[#f7f8f8] placeholder:text-[#8a8f98]/70;
+    }
+    
+    .btn-primary {
+      @apply bg-[#1A1A1A] text-[#f7f8f8] py-3 px-6 rounded-lg font-medium shadow-md hover:bg-[#202020] transition-all duration-300;
+    }
+    
+    .social-icon {
+      @apply text-[#f7f8f8] text-xl bg-[#1A1A1A] p-2 rounded-lg transition-all duration-300 flex items-center justify-center h-10 w-10;
+    }
+    
+    .social-icon:hover {
+      @apply bg-[#202020] transform -translate-y-1;
+    }
 }
