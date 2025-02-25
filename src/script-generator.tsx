@@ -233,7 +233,7 @@ export default function VideoScriptGenerator() {
                       setOption(opt.value);
                       setShowDropdown(false);
                     }}
-                    className="flex w-full items-center gap-2 px-6 py-3 text-left text-white transition-colors hover:bg-[#FE7443]/20"
+                    className="flex w-full items-center gap-2 px-6 py-3 text-left text-white transition-colors hover:bg-[#141414]/20"
                   >
                     <Sparkles className="h-4 w-4 text-[#28a745]" />
                     {opt.label}
@@ -396,7 +396,7 @@ export default function VideoScriptGenerator() {
                   save your script to clipboard
                 </li>
               </ol>
-              <div className="mt-6 rounded-lg bg-[#FE7443]/20 p-4">
+              <div className="mt-6 rounded-lg bg-[#141414]/20 p-4">
                 <p className="flex items-center gap-2 text-sm">
                   <AlertCircle className="h-4 w-4 " />
                   Pro tip: Be specific with your key points and target audience for better results
