@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { format } from 'date-fns';
 
-interface OpenRouterResponse {
+/*interface OpenRouterResponse {
   id: string;
   object: string;
   created: number;
@@ -20,7 +20,7 @@ interface OpenRouterResponse {
     completion_tokens: number;
     total_tokens: number;
   };
-}
+}*/
 
 export async function POST(request: NextRequest) {
   try {
