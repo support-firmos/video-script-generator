@@ -101,30 +101,41 @@ export default function VideoScriptGenerator() {
         throw new Error(`Failed to generate script: ${response.statusText}`);
       }
   
+    // Check content type to determine how to process
+    const contentType = response.headers.get('content-type');
+    
+    if (contentType && contentType.includes('application/json')) {
+      // Handle JSON response
       const data = await response.json();
-      console.log('Response data:', data); // Logging response to verify
-  
-      // Set promptResult if content is available, otherwise show warning
+      console.log('JSON response data:', data);
+      
       if (data && data.content) {
-        console.log('Setting prompt result:', data.content);
         setPromptResult(data.content);
+      } else if (data && typeof data === 'string') {
+        setPromptResult(data);
       } else {
-        console.warn('Unexpected response format', data);
+        console.warn('Unexpected JSON format', data);
         setPromptResult('No content generated.');
       }
-    } catch (err) {
-      console.error('Error generating script:', err);
-      if (err instanceof Error && err.name === 'AbortError') {
-        setError('Request timed out. Please try again with a shorter script request.');
-      } else if (err instanceof Error) {
-        setError(`Failed to generate script: ${err.message}`);
-      } else {
-        setError('Failed to generate script: An unexpected error occurred.');
-      }
-    } finally {
-      setIsGenerating(false);
-      setProgress(0);
+    } else {
+      // Handle text response
+      const textContent = await response.text();
+      console.log('Text response data:', textContent);
+      setPromptResult(textContent);
     }
+  } catch (err) {
+    console.error('Error generating script:', err);
+    if (err instanceof Error && err.name === 'AbortError') {
+      setError('Request timed out. Please try again with a shorter script request.');
+    } else if (err instanceof Error) {
+      setError(`Failed to generate script: ${err.message}`);
+    } else {
+      setError('Failed to generate script: An unexpected error occurred.');
+    }
+  } finally {
+    setIsGenerating(false);
+    setProgress(0);
+  }
   };
 
   const handleCreateNew = () => {
