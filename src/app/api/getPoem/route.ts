@@ -49,17 +49,34 @@ export async function POST(request: NextRequest) {
       timeout: 60000 // 60 second timeout
     });
 
-    // Construct the prompt for OpenRouter API
     const prompt = `
-      You are a scriptwriting assistant. Write a ${scriptOption} video script with the following details:
-      - Title: ${title || 'Untitled'}
-      - Type: ${type || 'General'}
-      - Target Audience: ${targetAudience || 'General Audience'}
-      - Tone: ${tone || 'Neutral'}
-      - Duration: ${duration || 'Not specified'}
-      - Key Points: ${keyPoints || 'None provided'}
-      - Call to Action: ${callToAction || 'None provided'}
-      Please create a detailed and engaging script.
+    Create a professional ${scriptOption} video script with the following specifications:
+
+    SCRIPT DETAILS:
+    - Title: ${title || 'Untitled'}
+    - Format: ${scriptOption}
+    - Content Type: ${type || 'General'}
+    - Target Audience: ${targetAudience || 'General Audience'}
+    - Tone: ${tone || 'Neutral'}
+    - Duration: ${duration || 'Not specified'}
+
+    CONTENT REQUIREMENTS:
+    ${keyPoints ? `- Key Points to Cover:\n  ${keyPoints}` : '- No specific points provided'}
+    ${callToAction ? `- Call to Action: ${callToAction}` : '- No call to action provided'}
+
+    STRUCTURE GUIDANCE:
+    - For Short Form: Create a concise, attention-grabbing script with a strong hook, clear message, and compelling ending.
+    - For Carousel: Divide content into clear, sequential slides with smooth transitions and consistent pacing.
+    - For Long Form: Develop a narrative arc with introduction, detailed body sections, and conclusion.
+    - For VSL: Incorporate problem-agitation-solution framework with persuasive elements and clear value propositions.
+
+    FORMAT YOUR RESPONSE AS:
+    1. TITLE
+    2. HOOK/INTRO
+    3. MAIN CONTENT (with timestamps if applicable)
+    4. CONCLUSION/CTA
+
+    Make the script conversational, engaging, and optimized for the specified video format.
     `;
 
     // Create a stream for the response
