@@ -88,8 +88,8 @@ export async function POST(request: NextRequest) {
       try {
         // Call the OpenRouter API
         const response = await client.chat.completions.create({
-          model: 'mistralai/mistral-nemo',
-          max_tokens: 3000,
+          model: 'deepseek/deepseek-r1-distill-qwen-32b',
+          max_tokens: 5000,
           temperature: 0.7,
           messages: [
             {
