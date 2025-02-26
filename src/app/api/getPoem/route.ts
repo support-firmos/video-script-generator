@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { format } from 'date-fns';
 
+export const maxDuration = 60;
+
 /*interface OpenRouterResponse {
   id: string;
   object: string;
