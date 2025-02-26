@@ -69,8 +69,8 @@ export async function POST(request: NextRequest) {
       try {
         // Call the OpenRouter API
         const response = await client.chat.completions.create({
-          model: 'deepseek/deepseek-r1-distill-llama-70b',
-          max_tokens: 5000,
+          model: 'mistralai/mistral-nemo',
+          max_tokens: 3000,
           temperature: 0.7,
           messages: [
             {
@@ -135,6 +135,8 @@ export async function POST(request: NextRequest) {
     return new NextResponse(stream.readable, {
       headers: {
         'Content-Type': 'text/plain',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
         'X-Content-Type-Options': 'nosniff',
       },
     });

@@ -104,8 +104,30 @@ export default function VideoScriptGenerator() {
     // Check content type to determine how to process
     const contentType = response.headers.get('content-type');
     
-    if (contentType && contentType.includes('application/json')) {
-      // Handle JSON response
+    if (contentType && contentType.includes('text/plain')) {
+      // Handle streaming response
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('Response body is not readable');
+      }
+
+      // Read the stream
+      const decoder = new TextDecoder();
+      let accumulatedText = '';
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        // Decode the stream chunk
+        const chunkText = decoder.decode(value, { stream: true });
+        accumulatedText += chunkText;
+        
+        // Update UI with each chunk
+        setPromptResult(accumulatedText);
+      }
+    } else if (contentType && contentType.includes('application/json')) {
+      // Handle JSON response (fallback)
       const data = await response.json();
       console.log('JSON response data:', data);
       
@@ -118,7 +140,7 @@ export default function VideoScriptGenerator() {
         setPromptResult('No content generated.');
       }
     } else {
-      // Handle text response
+      // Handle text response (fallback)
       const textContent = await response.text();
       console.log('Text response data:', textContent);
       setPromptResult(textContent);
@@ -212,7 +234,7 @@ export default function VideoScriptGenerator() {
           <div className="relative">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="group flex w-full items-center justify-between rounded-xl border border-white/20 bg-[#141414] px-6 py-3 text-white backdrop-blur-sm transition-all hover:bg-black/60 focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20"
+              className="group flex w-full items-center justify-between rounded-xl border border-white/20 bg-[#141414] px-6 py-3 text-white backdrop-blur-sm transition-all hover:bg-[#f7f8f8]/20 focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20"
             >
               <span className="flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-[#28a745]" />
@@ -324,7 +346,7 @@ export default function VideoScriptGenerator() {
         <div className="mt-6 flex justify-center">
           <button
             onClick={handleCreateNew}
-            className="rounded-lg border px-6 py-2 transition-all hover:bg-[#28a745] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20 focus:ring-offset-2"
+            className="rounded-lg border px-6 py-2 transition-all hover:text-white focus:outline-none focus:ring-2 focus:ring-[#f7f8f8]/20 focus:ring-offset-2"
           >
             Create New Script
           </button>
