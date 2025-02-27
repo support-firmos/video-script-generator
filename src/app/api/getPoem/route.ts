@@ -50,33 +50,41 @@ export async function POST(request: NextRequest) {
     });
 
     const prompt = `
-    Create a professional ${scriptOption} video script with the following specifications:
+    Generate a professional ${scriptOption} video script with the following parameters:
 
-    SCRIPT DETAILS:
-    - Title: ${title || 'Untitled'}
-    - Format: ${scriptOption}
-    - Content Type: ${type || 'General'}
-    - Target Audience: ${targetAudience || 'General Audience'}
-    - Tone: ${tone || 'Neutral'}
-    - Duration: ${duration || 'Not specified'}
+    TITLE: ${title || 'Untitled'}
+    FORMAT: ${scriptOption}
+    TYPE: ${type || 'General'}
+    AUDIENCE: ${targetAudience || 'General Audience'}
+    TONE: ${tone || 'Neutral'}
+    DURATION: ${duration || 'Not specified'}
+    KEY POINTS: ${keyPoints || 'None provided'}
+    CALL TO ACTION: ${callToAction || 'None provided'}
 
-    CONTENT REQUIREMENTS:
-    ${keyPoints ? `- Key Points to Cover:\n  ${keyPoints}` : '- No specific points provided'}
-    ${callToAction ? `- Call to Action: ${callToAction}` : '- No call to action provided'}
+    FORMAT REQUIREMENTS:
+    - Deliver ONLY the finished script with no explanations, introductions, or conversational text
+    - Include clear section markers (TITLE, HOOK, MAIN CONTENT, CONCLUSION)
+    - For MAIN CONTENT, include timestamps and visual descriptions
+    - Include [VISUAL] directions for key scenes
+    - Include [MUSIC] cues where appropriate
+    - Include [TEXT] indicators for on-screen text
+    - Format all speaker parts as "NARRATOR:" or character names
+    - DO NOT include comments about the script quality or suggestions
 
-    STRUCTURE GUIDANCE:
-    - For Short Form: Create a concise, attention-grabbing script with a strong hook, clear message, and compelling ending.
-    - For Carousel: Divide content into clear, sequential slides with smooth transitions and consistent pacing.
-    - For Long Form: Develop a narrative arc with introduction, detailed body sections, and conclusion.
-    - For VSL: Incorporate problem-agitation-solution framework with persuasive elements and clear value propositions.
+    OUTPUT STRUCTURE:
+    TITLE
+    [VISUAL: Opening scene]
+    [MUSIC: Description]
+    NARRATOR: Script text...
+    [TEXT: On-screen text]
 
-    FORMAT YOUR RESPONSE AS:
-    1. TITLE
-    2. HOOK/INTRO
-    3. MAIN CONTENT (with timestamps if applicable)
-    4. CONCLUSION/CTA
+    ADDITIONAL FORMATTING:
+    - Format Long Form as sequential scenes with timestamps
+    - Format Carousel as numbered slides with transitions
+    - Format Short Form with quick cuts and visual directions
+    - Format VSL with problem-solution structure and persuasive elements
 
-    Make the script conversational, engaging, and optimized for the specified video format.
+    DELIVER ONLY THE FINISHED SCRIPT WITH NO ADDITIONAL TEXT.
     `;
 
     // Create a stream for the response
